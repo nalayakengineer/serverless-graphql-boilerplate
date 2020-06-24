@@ -1,0 +1,36 @@
+# Welcome to Serverless Blog Powered by Apollo!
+#
+
+service: serverlessblog
+# app and org for use with dashboard.serverless.com
+app: serverless_blog
+org: bhushanbharat
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  # you can overwrite defaults here
+  stage: dev
+  region: ap-south-1
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-plugin-include-dependencies
+
+custom:
+  serverless-offline:
+    port: 4000
+  webpackIncludeModules: true
+functions:
+  graphql:
+    handler: server.graphqlHandler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
